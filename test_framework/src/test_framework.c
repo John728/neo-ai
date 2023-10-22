@@ -4,16 +4,23 @@
 // Global variables
 static Test *head = NULL;
 static Test *tail = NULL;
-static int failed_due_to_segfault = 0;
 static Test *current_test = NULL;
 
 jmp_buf test_buf;
+int current_test_failed_due_to_signal = 0;
 
-// Signal handler for SIGSEGV
-void handle_sigsegv(int signum) {
-    (void) signum;  // Unused parameter
-    printf("FAIL (Segmentation fault in %s)\n", current_test->test_name);
-    failed_due_to_segfault = 1;
+// Signal handler for SIGSEGV and SIGABRT
+void handle_sigsegv(int signum, siginfo_t *si, void *unused) {
+    (void)si;
+    (void)unused;
+
+    if (signum == SIGSEGV) {
+        printf("Segmentation fault in %s -> ", current_test->test_name);
+    } else if (signum == SIGABRT) {
+        printf("Abort called in %s -> ", current_test->test_name);
+    }
+
+    current_test_failed_due_to_signal = 1;
     longjmp(test_buf, 1);
 }
 
@@ -27,27 +34,37 @@ void register_test(Test *test) {
 }
 
 void run_tests() {
+    struct sigaction sa;
+    sa.sa_flags = SA_SIGINFO;
+    sa.sa_sigaction = handle_sigsegv;
+
+    sigaction(SIGSEGV, &sa, NULL);
+    sigaction(SIGABRT, &sa, NULL);
 
     int passed = 0;
     int total = 0;
-
-    signal(SIGSEGV, handle_sigsegv); // Register the signal handler
     Test *current = head;
 
     while (current) {
-
         printf("Running test: %s... ", current->test_name);
         
-        // Reset the flag for next tests
-        if (failed_due_to_segfault) {
-            failed_due_to_segfault = 0;  
-        }
+        current_test_failed_due_to_signal = 0;
+        current_test = current;
 
         if (!setjmp(test_buf)) {
-            current_test = current;
             current->func();
-            printf("PASSED\n");
+
+            if (current->should_fail) {
+                printf(" -> FAILED (was expected to fail but didn't)\n");
+            } else {
+                printf(" -> PASSED\n");
+                passed++;
+            }
+        } else if (current_test_failed_due_to_signal || current->should_fail) {
+            printf(" -> PASSED (It failed as expected)\n");
             passed++;
+        } else {
+            printf(" -> FAILED\n");
         }
         
         total++;

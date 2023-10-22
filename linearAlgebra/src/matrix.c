@@ -73,7 +73,7 @@ double matrixGetElement(Matrix matrix, int row, int column) {
     // Raise error if out of bounds
     if (row < 0 || row >= matrixGetRows(matrix) || column < 0 || column >= matrixGetColumns(matrix)) {
         fprintf(stderr, "Error: Index out of bounds.\n");
-        exit(1);
+        abort();
     }
 
     return matrix->data[row][column];
@@ -85,7 +85,7 @@ void matrixSetElement(Matrix matrix, int row, int column, double value) {
 
     if (row < 0 || row >= matrixGetRows(matrix) || column < 0 || column >= matrixGetColumns(matrix)) {
         fprintf(stderr, "Error: Index out of bounds.\n");
-        exit(1);
+        abort();
     }
 
     matrix->data[row][column] = value;
@@ -95,7 +95,7 @@ void matrixSetRow(Matrix matrix, int row, double *data) {
 
     if (row < 0 || row >= matrixGetRows(matrix)) {
         fprintf(stderr, "Error: Index out of bounds.\n");
-        exit(1);
+        abort();
     }
 
     for (int i = 0; i < matrixGetColumns(matrix); i++) {
@@ -111,7 +111,7 @@ Matrix matrixAdd(Matrix matrix1, Matrix matrix2) {
     // Raise error if matrices are not the same size
     if (matrixGetRows(matrix1) != matrixGetRows(matrix2) || matrixGetColumns(matrix1) != matrixGetColumns(matrix2)) {
         fprintf(stderr, "Error: Matrices must be the same size to add them.\n");
-        exit(1);
+        abort(); 
     }
 
     // Actually add
@@ -131,7 +131,7 @@ Matrix matrixSubtract(Matrix matrix1, Matrix matrix2) {
     // Raise error if matrices are not the same size
     if (matrixGetRows(matrix1) != matrixGetRows(matrix2) || matrixGetColumns(matrix1) != matrixGetColumns(matrix2)) {
         fprintf(stderr, "Error: Matrices must be the same size to subtract them.\n");
-        exit(1);
+        abort();
     }
 
     // Actually subtract
@@ -157,7 +157,7 @@ Matrix matrixMultiply(Matrix matrix1, Matrix matrix2) {
     // Raise error if matrices cannot be multiplied
     if (matrixGetColumns(matrix1) != matrixGetRows(matrix2)) {
         fprintf(stderr, "Error: Matrices cannot be multiplied.\n");
-        exit(1);
+        abort();
     }
 
     Matrix newMatrix = matrixCreateZeros(matrixGetRows(matrix1), matrixGetColumns(matrix2));
@@ -232,7 +232,7 @@ double matrixDet(Matrix matrix) {
 
     if (matrixGetColumns(matrix) != matrixGetRows(matrix)) {
         fprintf(stderr, "Error: Matrices cannot be multiplied.\n");
-        exit(1);
+        abort();
     }
 
     int n = matrixGetRows(matrix);
@@ -264,7 +264,7 @@ Matrix matrixGetSubMatrix(Matrix matrix, int x1, int y1, int x2, int y2) {
     // Raise error if out of bounds
     if (x1 < 0 || x1 >= matrixGetRows(matrix) || y1 < 0 || y1 >= matrixGetColumns(matrix) || x2 < 0 || x2 >= matrixGetRows(matrix) || y2 < 0 || y2 >= matrixGetColumns(matrix)) {
         fprintf(stderr, "Error: Index out of bounds.\n");
-        exit(1);
+        abort();
     }
 
     Matrix newMatrix = matrixCreateEmpty(x2 - x1 + 1, y2 - y1 + 1);

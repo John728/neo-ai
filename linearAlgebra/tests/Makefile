@@ -1,15 +1,17 @@
 # Variables
 CC = gcc
 CFLAGS = -Wall -Wextra -pedantic -g
-SRC_FILES = ../../test_framework/src/test_framework.c test_matrix.c ../src/matrix.c
+SRC_FILES = ../../test_framework/src/test_framework.c testMatrix.c ../src/matrix.c
 OUTPUT = test_runner
 
 # Default target: Compile the tests without Valgrind and run them
 all: $(OUTPUT)
+	@echo "Running the tests..."
 	./$(OUTPUT)
 
 # Compile the test runner
 $(OUTPUT): $(SRC_FILES)
+	@echo "Compiling the latest version of the test-framework..."
 	$(CC) $(CFLAGS) -o $(OUTPUT) $(SRC_FILES)
 
 # Clean up the compiled files

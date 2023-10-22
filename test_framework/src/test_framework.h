@@ -8,8 +8,12 @@
 
 typedef void (*test_fn)();
 
+extern int current_test_failed_due_to_signal;
+
+
 typedef struct Test {
     const char *test_name;
+    const int should_fail;
     test_fn func;
     struct Test *next;
 } Test;
@@ -17,6 +21,12 @@ typedef struct Test {
 #define TEST(name) \
     void name(); \
     static Test __test_##name = { .test_name = #name, .func = name, .next = NULL }; \
+    static __attribute__((constructor)) void __reg_##name() { register_test(&__test_##name); } \
+    void name()
+
+#define TEST_FAIL(name) \
+    void name(); \
+    static Test __test_##name = { .test_name = #name, .func = name, .should_fail = 1, .next = NULL }; \
     static __attribute__((constructor)) void __reg_##name() { register_test(&__test_##name); } \
     void name()
 
@@ -28,7 +38,7 @@ extern jmp_buf test_buf;
 #define ASSERT(expr) \
     do { \
         if (!(expr)) { \
-            printf("FAIL (line %d: %s)\n", __LINE__, #expr); \
+            printf("FAIL (line %d: %s)", __LINE__, #expr); \
             longjmp(test_buf, 1); \
         } \
     } while (0)

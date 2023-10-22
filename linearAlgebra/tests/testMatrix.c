@@ -82,6 +82,18 @@ TEST(testAdd) {
     matrixFree(sum);
 }
 
+TEST_FAIL(testFailAddWrongDimensions) {
+    
+        Matrix m = matrixCreateZeros(10, 10);
+        Matrix n = matrixCreateZeros(10, 11);
+    
+        Matrix sum = matrixAdd(m, n);
+    
+        matrixFree(m);
+        matrixFree(n);
+        matrixFree(sum);
+}
+
 TEST(testSubtract) {
 
     Matrix m1 = matrixCreateZeros(10, 10);
@@ -111,6 +123,18 @@ TEST(testSubtract) {
     matrixFree(m1);
     matrixFree(m2);
     matrixFree(sum);
+}
+
+TEST_FAIL(testFailSubtractWrongDimensions) {
+    
+        Matrix m = matrixCreateZeros(10, 10);
+        Matrix n = matrixCreateZeros(10, 11);
+    
+        Matrix sum = matrixSubtract(m, n);
+    
+        matrixFree(m);
+        matrixFree(n);
+        matrixFree(sum);
 }
 
 TEST(testTranspose) {
@@ -155,6 +179,18 @@ TEST(testMultiply) {
     matrixFree(m1);
     matrixFree(m2);
     matrixFree(product);
+}
+
+TEST_FAIL(testFailMultiplyWrongDimensions) {
+    
+        Matrix m = matrixCreateZeros(10, 10);
+        Matrix n = matrixCreateZeros(10, 11);
+    
+        Matrix sum = matrixMultiply(m, n);
+    
+        matrixFree(m);
+        matrixFree(n);
+        matrixFree(sum);
 }
 
 TEST(testIdentitiyMatrix) {
