@@ -183,14 +183,14 @@ TEST(testMultiply) {
 
 TEST_FAIL(testFailMultiplyWrongDimensions) {
     
-        Matrix m = matrixCreateZeros(10, 10);
-        Matrix n = matrixCreateZeros(10, 11);
-    
-        Matrix sum = matrixMultiply(m, n);
-    
-        matrixFree(m);
-        matrixFree(n);
-        matrixFree(sum);
+    Matrix m = matrixCreateZeros(2, 10);
+    Matrix n = matrixCreateZeros(10, 11);
+
+    Matrix sum = matrixMultiply(m, n);
+
+    matrixFree(m);
+    matrixFree(n);
+    matrixFree(sum);
 }
 
 TEST(testIdentitiyMatrix) {
@@ -207,6 +207,12 @@ TEST(testIdentitiyMatrix) {
         }
     }
 
+    matrixFree(m);
+}
+
+TEST_FAIL(testAccessOutOfBounds) {
+    Matrix m = matrixCreateZeros(2, 2);
+    matrixGetElement(m, 10, 10);
     matrixFree(m);
 }
 

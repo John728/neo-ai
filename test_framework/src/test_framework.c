@@ -15,12 +15,14 @@ void handle_sigsegv(int signum, siginfo_t *si, void *unused) {
     (void)unused;
 
     if (signum == SIGSEGV) {
+        // Program should never segfault, so this is a failure
         printf("Segmentation fault in %s -> ", current_test->test_name);
     } else if (signum == SIGABRT) {
+        // Program can abort, so this can be okay
         printf("Abort called in %s -> ", current_test->test_name);
+        current_test_failed_due_to_signal = 1;
     }
 
-    current_test_failed_due_to_signal = 1;
     longjmp(test_buf, 1);
 }
 
