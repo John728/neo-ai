@@ -91,6 +91,19 @@ void matrixSetElement(Matrix matrix, int row, int column, double value) {
     matrix->data[row][column] = value;
 }
 
+void matrixSetRow(Matrix matrix, int row, double *data) {
+
+    if (row < 0 || row >= matrixGetRows(matrix)) {
+        fprintf(stderr, "Error: Index out of bounds.\n");
+        exit(1);
+    }
+
+    for (int i = 0; i < matrixGetColumns(matrix); i++) {
+        matrixSetElement(matrix, row, i, data[i]);
+    }
+
+}
+
 // Matrix operations
 
 Matrix matrixAdd(Matrix matrix1, Matrix matrix2) {
@@ -199,9 +212,20 @@ Matrix matrixRandom(int rows, int columns) {
 
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
-            matrixSetElement(newMatrix, i, j, i + j % 1248);
+            matrixSetElement(newMatrix, i, j, i);
         }
     }
 
     return newMatrix;
+}
+
+// I/O
+
+void matrixPrint(Matrix matrix) {
+    for (int i = 0; i < matrixGetRows(matrix); i++) {
+        for (int j = 0; j < matrixGetColumns(matrix); j++) {
+            printf("%.3g ", matrixGetElement(matrix, i, j));
+        }
+        printf("\n");
+    }
 }

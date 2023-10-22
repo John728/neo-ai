@@ -1,1 +1,0 @@
-gcc -o test_runner test_framework.c test_matrix.c ../src/matrix.c -Wall -Wextra -pedantic

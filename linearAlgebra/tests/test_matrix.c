@@ -1,6 +1,4 @@
-// test_matrix.c
-
-#include "test_framework.h"
+#include "../../test_framework/src/test_framework.h"
 #include "../src/matrix.h"
 
 // Test creation and deletion
@@ -78,6 +76,10 @@ TEST(testAdd) {
             ASSERT(matrixGetElement(sum, i, j) == 2 * (i + j));
         }
     }
+
+    matrixFree(m);
+    matrixFree(n);
+    matrixFree(sum);
 }
 
 TEST(testSubtract) {
@@ -174,6 +176,16 @@ TEST(testIdentitiyMatrix) {
 
 // Test I/O
 
+TEST(testPrinting) {
+
+    // this is just for visual validation and memory validation
+
+    printf("\n");
+    Matrix m = matrixRandom(10, 10);
+    matrixPrint(m);
+    matrixFree(m);
+    printf("\n");
+}
 
 // needed for test framework
 int main() {

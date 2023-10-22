@@ -1,5 +1,3 @@
-// test_framework.c
-
 #include "test_framework.h"
 #include <signal.h>
 

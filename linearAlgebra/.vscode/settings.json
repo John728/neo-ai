@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "test.h": "c",
-        "test_framework.h": "c"
+        "test_framework.h": "c",
+        "signal.h": "c",
+        "matrix.h": "c"
     }
 }

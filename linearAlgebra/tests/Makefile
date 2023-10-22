@@ -1,7 +1,7 @@
 # Variables
 CC = gcc
 CFLAGS = -Wall -Wextra -pedantic -g
-SRC_FILES = test_framework.c test_matrix.c ../src/matrix.c
+SRC_FILES = ../../test_framework/src/test_framework.c test_matrix.c ../src/matrix.c
 OUTPUT = test_runner
 
 # Default target: Compile the tests without Valgrind and run them

@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
-#include <string.h>
 
 typedef struct matrix *Matrix;
 
@@ -29,6 +27,7 @@ Matrix matrixRandom(int rows, int columns);
 int matrixGetRows(Matrix matrix);
 int matrixGetColumns(Matrix matrix);
 double matrixGetElement(Matrix matrix, int row, int column);
+double **matrixGetData(Matrix matrix);
 
 // Matrix setters
 
