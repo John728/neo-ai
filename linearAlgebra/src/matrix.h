@@ -10,8 +10,6 @@ Matrix matrixCreateEmpty(int rows, int columns);
 Matrix matrixCreate(int rows, int columns, double data[][columns]);
 void matrixFree(Matrix matrix);
 
-void matrixFree(Matrix matrix);
-
 // Matrix operations
 
 Matrix matrixAdd(Matrix matrix1, Matrix matrix2);
@@ -21,6 +19,8 @@ Matrix matrixTranspose(Matrix matrix);
 Matrix matrixScalarMultiply(Matrix matrix, double scalar);
 Matrix matrixEye(int n);
 Matrix matrixRandom(int rows, int columns);
+double matrixDet(Matrix matrix);
+Matrix matrixGetSubMatrix(Matrix matrix, int x1, int y1, int x2, int y2);
 
 // Matrix getters 
 

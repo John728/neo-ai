@@ -147,6 +147,11 @@ Matrix matrixSubtract(Matrix matrix1, Matrix matrix2) {
 
 }
 
+/**
+ * Multiply matrix1 by matrix2.
+ * 
+ * O(n^3)
+*/
 Matrix matrixMultiply(Matrix matrix1, Matrix matrix2) {
     
     // Raise error if matrices cannot be multiplied
@@ -218,6 +223,61 @@ Matrix matrixRandom(int rows, int columns) {
 
     return newMatrix;
 }
+
+
+/**
+ * Resursive determinant function. Returns the determinant of matrix.
+*/
+double matrixDet(Matrix matrix) {
+
+    if (matrixGetColumns(matrix) != matrixGetRows(matrix)) {
+        fprintf(stderr, "Error: Matrices cannot be multiplied.\n");
+        exit(1);
+    }
+
+    int n = matrixGetRows(matrix);
+
+    if (n == 2) {
+        return matrixGetElement(matrix, 0, 0) * matrixGetElement(matrix, 1, 1) - matrixGetElement(matrix, 0, 1) * matrixGetElement(matrix, 1, 0);
+    } else {
+
+        double result = 0;
+
+        for (int i = 0; i < n; i++) {
+
+            Matrix subMatrix = matrixGetSubMatrix(matrix, 1, 0, n - 1, i);
+
+            result += matrixGetElement(matrix, 0, i) * matrixDet(subMatrix) * (i % 2 == 0 ? 1 : -1);
+
+            matrixFree(subMatrix);
+
+        }
+
+        return result;
+
+    }
+}
+
+// Get a sub matrix of a matrix between (x1, y1) and (x2, y2)
+Matrix matrixGetSubMatrix(Matrix matrix, int x1, int y1, int x2, int y2) {
+    
+    // Raise error if out of bounds
+    if (x1 < 0 || x1 >= matrixGetRows(matrix) || y1 < 0 || y1 >= matrixGetColumns(matrix) || x2 < 0 || x2 >= matrixGetRows(matrix) || y2 < 0 || y2 >= matrixGetColumns(matrix)) {
+        fprintf(stderr, "Error: Index out of bounds.\n");
+        exit(1);
+    }
+
+    Matrix newMatrix = matrixCreateEmpty(x2 - x1 + 1, y2 - y1 + 1);
+
+    for (int i = x1; i <= x2; i++) {
+        for (int j = y1; j <= y2; j++) {
+            matrixSetElement(newMatrix, i - x1, j - y1, matrixGetElement(matrix, i, j));
+        }
+    }
+
+    return newMatrix;
+}
+
 
 // I/O
 
