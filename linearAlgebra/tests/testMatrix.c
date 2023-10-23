@@ -184,7 +184,7 @@ TEST(testMultiply) {
 TEST_FAIL(testFailMultiplyWrongDimensions) {
     
     Matrix m = matrixCreateZeros(2, 10);
-    Matrix n = matrixCreateZeros(10, 11);
+    Matrix n = matrixCreateZeros(9, 11);
 
     Matrix sum = matrixMultiply(m, n);
 
@@ -213,6 +213,32 @@ TEST(testIdentitiyMatrix) {
 TEST_FAIL(testAccessOutOfBounds) {
     Matrix m = matrixCreateZeros(2, 2);
     matrixGetElement(m, 10, 10);
+    matrixFree(m);
+}
+
+TEST(testDeterminant) {
+    double data[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    Matrix m = matrixCreate(3, 3, data);
+
+    ASSERT(matrixDet(m) == 0);
+
+    matrixFree(m);
+
+
+    double data1[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 10}};
+    Matrix m1 = matrixCreate(3, 3, data1);
+
+    ASSERT(matrixDet(m1) == -3);
+
+    matrixFree(m1);
+}
+
+TEST_FAIL(testDetFailsOnNonSquare) {
+    double data[3][2] = {{1, 2}, {4, 5}, {7, 8}};
+    Matrix m = matrixCreate(3, 2, data);
+
+    ASSERT(matrixDet(m) == 0);
+
     matrixFree(m);
 }
 

@@ -231,7 +231,7 @@ Matrix matrixRandom(int rows, int columns) {
 double matrixDet(Matrix matrix) {
 
     if (matrixGetColumns(matrix) != matrixGetRows(matrix)) {
-        fprintf(stderr, "Error: Matrices cannot be multiplied.\n");
+        fprintf(stderr, "Error: Cannot find determinant of a non-square matrix.\n");
         abort();
     }
 

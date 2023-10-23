@@ -16,10 +16,10 @@ void handle_sigsegv(int signum, siginfo_t *si, void *unused) {
 
     if (signum == SIGSEGV) {
         // Program should never segfault, so this is a failure
-        printf("Segmentation fault in %s -> ", current_test->test_name);
+        printf("Segmentation fault in %s", current_test->test_name);
     } else if (signum == SIGABRT) {
         // Program can abort, so this can be okay
-        printf("Abort called in %s -> ", current_test->test_name);
+        printf("Abort called in %s", current_test->test_name);
         current_test_failed_due_to_signal = 1;
     }
 
@@ -62,7 +62,7 @@ void run_tests() {
                 printf(" -> PASSED\n");
                 passed++;
             }
-        } else if (current_test_failed_due_to_signal || current->should_fail) {
+        } else if (current_test_failed_due_to_signal && current->should_fail) {
             printf(" -> PASSED (It failed as expected)\n");
             passed++;
         } else {
