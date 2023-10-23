@@ -1,4 +1,0 @@
-/home/johnh/neo-ai/linearAlgebra/build/CMakeFiles/TestRunner.dir
-/home/johnh/neo-ai/linearAlgebra/build/CMakeFiles/run_tests.dir
-/home/johnh/neo-ai/linearAlgebra/build/CMakeFiles/edit_cache.dir
-/home/johnh/neo-ai/linearAlgebra/build/CMakeFiles/rebuild_cache.dir

@@ -1,1 +1,0 @@
-gcc  -Wall -Wextra -pedantic -g CMakeFiles/TestRunner.dir/home/johnh/neo-ai/test_framework/src/test_framework.c.o CMakeFiles/TestRunner.dir/tests/testMatrix.c.o CMakeFiles/TestRunner.dir/src/matrix.c.o -o TestRunner 
