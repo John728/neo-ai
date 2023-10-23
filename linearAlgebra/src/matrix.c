@@ -228,34 +228,46 @@ Matrix matrixRandom(int rows, int columns) {
 /**
  * Resursive determinant function. Returns the determinant of matrix.
 */
+// Matrix determinant using Laplace expansion
 double matrixDet(Matrix matrix) {
+    int rows = matrixGetRows(matrix);
+    int columns = matrixGetColumns(matrix);
 
-    if (matrixGetColumns(matrix) != matrixGetRows(matrix)) {
-        fprintf(stderr, "Error: Cannot find determinant of a non-square matrix.\n");
+    if (rows != columns) {
+        fprintf(stderr, "Matrix is not square!\n");
         abort();
     }
 
-    int n = matrixGetRows(matrix);
+    // Base case: 1x1 matrix
+    if (rows == 1) {
+        return matrixGetElement(matrix, 0, 0);
+    }
 
-    if (n == 2) {
-        return matrixGetElement(matrix, 0, 0) * matrixGetElement(matrix, 1, 1) - matrixGetElement(matrix, 0, 1) * matrixGetElement(matrix, 1, 0);
-    } else {
+    // Base case: 2x2 matrix
+    if (rows == 2) {
+        return matrixGetElement(matrix, 0, 0) * matrixGetElement(matrix, 1, 1) - 
+               matrixGetElement(matrix, 0, 1) * matrixGetElement(matrix, 1, 0);
+    }
 
-        double result = 0;
-
-        for (int i = 0; i < n; i++) {
-
-            Matrix subMatrix = matrixGetSubMatrix(matrix, 1, 0, n - 1, i);
-
-            result += matrixGetElement(matrix, 0, i) * matrixDet(subMatrix) * (i % 2 == 0 ? 1 : -1);
-
-            matrixFree(subMatrix);
-
+    double det = 0;
+    for (int i = 0; i < columns; i++) {
+        Matrix subMatrix = matrixCreateEmpty(rows - 1, columns - 1);
+        
+        for (int j = 1; j < rows; j++) {
+            for (int k = 0; k < columns; k++) {
+                if (k < i) {
+                    matrixSetElement(subMatrix, j - 1, k, matrixGetElement(matrix, j, k));
+                } else if (k > i) {
+                    matrixSetElement(subMatrix, j - 1, k - 1, matrixGetElement(matrix, j, k));
+                }
+            }
         }
 
-        return result;
-
+        det += matrixGetElement(matrix, 0, i) * matrixDet(subMatrix) * (i % 2 == 0 ? 1 : -1);
+        matrixFree(subMatrix);
     }
+
+    return det;
 }
 
 // Get a sub matrix of a matrix between (x1, y1) and (x2, y2)
@@ -278,6 +290,30 @@ Matrix matrixGetSubMatrix(Matrix matrix, int x1, int y1, int x2, int y2) {
     return newMatrix;
 }
 
+Matrix matrixJoin(Matrix m1, Matrix m2) {
+    
+    if (matrixGetRows(m1) != matrixGetRows(m2)) {
+        fprintf(stderr, "Error: Matrices must have the same number of rows to join them.\n");
+        abort();
+    }
+
+    Matrix newMatrix = matrixCreateEmpty(matrixGetRows(m1), matrixGetColumns(m1) + matrixGetColumns(m2));
+
+    for (int i = 0; i < matrixGetRows(m1); i++) {
+        for (int j = 0; j < matrixGetColumns(m1); j++) {
+            matrixSetElement(newMatrix, i, j, matrixGetElement(m1, i, j));
+        }
+    }
+
+    for (int i = 0; i < matrixGetRows(m2); i++) {
+        for (int j = 0; j < matrixGetColumns(m2); j++) {
+            matrixSetElement(newMatrix, i, j + matrixGetColumns(m1), matrixGetElement(m2, i, j));
+        }
+    }
+
+    return newMatrix;
+}
+
 
 // I/O
 
@@ -286,6 +322,8 @@ void matrixPrint(Matrix matrix) {
         for (int j = 0; j < matrixGetColumns(matrix); j++) {
             printf("%.3g ", matrixGetElement(matrix, i, j));
         }
-        printf("\n");
+        if (i != matrixGetRows(matrix) - 1) {
+            printf("\n");
+        }
     }
 }

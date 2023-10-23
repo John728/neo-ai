@@ -21,6 +21,7 @@ Matrix matrixEye(int n);
 Matrix matrixRandom(int rows, int columns);
 double matrixDet(Matrix matrix);
 Matrix matrixGetSubMatrix(Matrix matrix, int x1, int y1, int x2, int y2);
+Matrix matrixJoin(Matrix m1, Matrix m2);
 
 // Matrix getters 
 
@@ -37,3 +38,5 @@ void matrixSetElement(Matrix matrix, int row, int column, double value);
 
 void matrixPrint(Matrix matrix);
 void matrixSaveToFile(Matrix matrix, char* filename);
+
+

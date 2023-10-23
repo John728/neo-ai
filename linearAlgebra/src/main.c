@@ -1,6 +1,12 @@
 #include "matrix.h"
 
+// For manual testing
+
 int main() {
-    Matrix m = matrixCreateZeros(3, 3);
-    matrixGetElement(m, 10, 10);
+    double data[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 10}};
+    Matrix m = matrixCreate(3, 3, data);
+
+    printf("det: %f\n", matrixDet(m));
+
+    matrixFree(m);
 }

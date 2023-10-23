@@ -10,7 +10,6 @@ typedef void (*test_fn)();
 
 extern int current_test_failed_due_to_signal;
 
-
 typedef struct Test {
     const char *test_name;
     const int should_fail;
@@ -42,7 +41,5 @@ extern jmp_buf test_buf;
             longjmp(test_buf, 1); \
         } \
     } while (0)
-
-
 
 #endif // TEST_FRAMEWORK_H
