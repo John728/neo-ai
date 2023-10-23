@@ -24,11 +24,18 @@ Matrix matrixInverse(Matrix matrix) {
 
 // https://online.stat.psu.edu/statprogram/reviews/matrix-algebra/gauss-jordan-elimination
 Matrix matrixInverseGaussJordan(Matrix matrix) {
+
     int n = matrixGetRows(matrix);
     int m = matrixGetColumns(matrix);
+
     if (n != m) {
-        // Matrix is not square, cannot find inverse.
-        return NULL;
+        fprintf(stderr, "Matrix must be square to invert.\n");
+        abort();
+    }
+
+    if (matrixDet(matrix) == 0) {
+        fprintf(stderr, "Matrix is singular, cannot find inverse.\n");
+        abort();
     }
 
     Matrix augmented = matrixCreateEmpty(n, 2 * n);
@@ -93,15 +100,4 @@ Matrix matrixInverseGaussJordan(Matrix matrix) {
     }
     matrixFree(augmented);
     return inverse;
-}
-
-
-
-void main() {
-
-    double data[2][2] = {{1, 5, 3}, {2, 6, 4}};
-
-    Matrix m = matrixCreate(2, 2, data);
-
-    matrixPrint(matrixInverseGaussJordan(m))    ;
 }
