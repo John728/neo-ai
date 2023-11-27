@@ -78,3 +78,19 @@ void run_tests() {
     printf("Passed: %d\n", passed);
     printf("Failed: %d\n", total - passed);
 }
+
+void printResultsToFile(char *filename) {
+    FILE *fp = fopen(filename, "w");
+    if (fp == NULL) {
+        fprintf(stderr, "Error: Could not open file %s for writing.\n", filename);
+        abort();
+    }
+
+    Test *current = head;
+    while (current) {
+        fprintf(fp, "%s,%d\n", current->test_name, current->should_fail);
+        current = current->next;
+    }
+
+    fclose(fp);
+}

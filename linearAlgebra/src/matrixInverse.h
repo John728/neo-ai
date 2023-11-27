@@ -1,4 +1,5 @@
 #include "matrix.h"
+#include <stdlib.h>
 
 Matrix matrixInverseGaussJordan(Matrix matrix);
 Matrix matrixInverse(Matrix matrix);

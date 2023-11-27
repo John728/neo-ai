@@ -148,9 +148,11 @@ Matrix matrixSubtract(Matrix matrix1, Matrix matrix2) {
 }
 
 /**
- * Multiply matrix1 by matrix2.
+ * Multiply matrix1 by matrix2. This algorithem is the Strassen algorithm.s
  * 
  * O(n^3)
+ * 
+ * https://en.wikipedia.org/wiki/Strassen_algorithm
 */
 Matrix matrixMultiply(Matrix matrix1, Matrix matrix2) {
     

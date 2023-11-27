@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <setjmp.h>
+#include <stdlib.h>
 
 typedef void (*test_fn)();
 
