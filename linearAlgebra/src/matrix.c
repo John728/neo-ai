@@ -226,6 +226,83 @@ Matrix matrixRandom(int rows, int columns) {
     return newMatrix;
 }
 
+/**
+ * Pool matrix by n. Returns a new matrix.
+ * Options for type: max, min, avg
+ * ! In the future, allow for custom pooling functions
+*/
+Matrix matrixPool(Matrix matrix, int n, char *type) {
+    int rows = matrixGetRows(matrix);
+    int columns = matrixGetColumns(matrix);
+
+    if (rows < n || columns < n) {
+        fprintf(stderr, "Matrix cannot be pooled by %d\n", n);
+        abort();
+    }
+
+    int newRows = rows / n;
+    int newColumns = columns / n;
+
+    Matrix newMatrix = matrixCreateEmpty(newRows, newColumns);
+
+    for (int i = 0; i < newRows; i++) {
+        for (int j = 0; j < newColumns; j++) {
+            double max = matrixGetElement(matrix, i * n, j * n);
+            for (int k = 0; k < n; k++) {
+                for (int l = 0; l < n; l++) {
+                    double element = matrixGetElement(matrix, i * n + k, j * n + l);
+                    if (strcmp(type, "max") == 0) {
+                        if (element > max) {
+                            max = element;
+                        }
+                    } else if (strcmp(type, "min") == 0) {
+                        if (element < max) {
+                            max = element;
+                        }
+                    } else if (strcmp(type, "avg") == 0) {
+                        max += element;
+                    }
+                }
+            }
+            if (strcmp(type, "avg") == 0) {
+                max /= n * n;
+            }
+            matrixSetElement(newMatrix, i, j, max);
+        }
+    }
+
+    return newMatrix;
+}
+
+/**
+ * Convolve matrix by kernal. Returns a new matrix. 
+*/
+Matrix matrixConvolve(Matrix matrix, Matrix kernal) {
+    int rows = matrixGetRows(matrix);
+    int columns = matrixGetColumns(matrix);
+
+    int kernalRows = matrixGetRows(kernal);
+    int kernalColumns = matrixGetColumns(kernal);
+
+    int newRows = rows - kernalRows + 1;
+    int newColumns = columns - kernalColumns + 1;
+
+    Matrix newMatrix = matrixCreateEmpty(newRows, newColumns);
+
+    for (int i = 0; i < newRows; i++) {
+        for (int j = 0; j < newColumns; j++) {
+            double sum = 0;
+            for (int k = 0; k < kernalRows; k++) {
+                for (int l = 0; l < kernalColumns; l++) {
+                    sum += matrixGetElement(matrix, i + k, j + l) * matrixGetElement(kernal, k, l);
+                }
+            }
+            matrixSetElement(newMatrix, i, j, sum);
+        }
+    }
+
+    return newMatrix;
+}
 
 /**
  * Resursive determinant function. Returns the determinant of matrix.

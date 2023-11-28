@@ -14,6 +14,7 @@ extern int current_test_failed_due_to_signal;
 typedef struct Test {
     const char *test_name;
     const int should_fail;
+    int failed;
     test_fn func;
     struct Test *next;
 } Test;
@@ -44,3 +45,8 @@ extern jmp_buf test_buf;
     } while (0)
 
 #endif // TEST_FRAMEWORK_H
+
+
+void setTextRed();
+void setTextGreen();
+void resetTextColour();

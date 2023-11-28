@@ -17,6 +17,7 @@ void handle_sigsegv(int signum, siginfo_t *si, void *unused) {
     if (signum == SIGSEGV) {
         // Program should never segfault, so this is a failure
         printf("Segmentation fault in %s", current_test->test_name);
+        current_test->failed = 1;
     } else if (signum == SIGABRT) {
         // Program can abort, so this can be okay
         printf("Abort called in %s", current_test->test_name);
@@ -57,16 +58,28 @@ void run_tests() {
             current->func();
 
             if (current->should_fail) {
+                setTextRed();
                 printf(" -> FAILED (was expected to fail but didn't)\n");
+                resetTextColour();
+                current->failed = 1;
             } else {
+                setTextGreen();
                 printf(" -> PASSED\n");
+                resetTextColour();
                 passed++;
+                
             }
         } else if (current_test_failed_due_to_signal && current->should_fail) {
+            setTextGreen();
             printf(" -> PASSED (It failed as expected)\n");
+            resetTextColour();
             passed++;
+            current->failed = 0;
         } else {
+            setTextRed();
             printf(" -> FAILED\n");
+            resetTextColour();
+            current->failed = 1;
         }
         
         total++;
@@ -77,20 +90,21 @@ void run_tests() {
     printf("Total tests: %d\n", total);
     printf("Passed: %d\n", passed);
     printf("Failed: %d\n", total - passed);
+    printf("--------------------\n");
 }
 
 void printResultsToFile(char *filename) {
-    FILE *fp = fopen(filename, "w");
-    if (fp == NULL) {
-        fprintf(stderr, "Error: Could not open file %s for writing.\n", filename);
-        abort();
-    }
+    
+}
 
-    Test *current = head;
-    while (current) {
-        fprintf(fp, "%s,%d\n", current->test_name, current->should_fail);
-        current = current->next;
-    }
+void setTextRed() {
+    printf("\033[1;31m");
+}
 
-    fclose(fp);
+void setTextGreen() {
+    printf("\033[0;32m");
+}
+
+void resetTextColour() {
+    printf("\033[0m");
 }

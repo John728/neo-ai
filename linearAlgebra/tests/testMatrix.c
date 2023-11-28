@@ -1,7 +1,9 @@
 #include "../../test_framework/src/test_framework.h"
 #include "../src/matrix.h"
 
+// ------------------------------------------------
 // Test creation and deletion
+// ------------------------------------------------
 
 TEST(testZeroMatrix) {
 
@@ -15,7 +17,9 @@ TEST(testZeroMatrix) {
     matrixFree(m);
 }
 
+// ------------------------------------------------
 // Test getters
+// ------------------------------------------------
 
 TEST(testGetters) {
 
@@ -27,7 +31,9 @@ TEST(testGetters) {
     matrixFree(m);
 }
 
+// ------------------------------------------------
 // Test setters
+// ------------------------------------------------
 
 TEST(testSetters) {
 
@@ -49,7 +55,9 @@ TEST(testSetters) {
 
 }
 
+// ------------------------------------------------
 // Test operations
+// ------------------------------------------------
 
 TEST(testAdd) {
 
@@ -242,7 +250,82 @@ TEST_FAIL(testDetFailsOnNonSquare) {
     matrixFree(m);
 }
 
+TEST(testPoolMax) {
+    double data[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    Matrix m = matrixCreate(3, 3, data);
+
+    Matrix pooled = matrixPool(m, 2, "max");
+
+    ASSERT(matrixGetElement(pooled, 0, 0) == 5);
+    ASSERT(matrixGetElement(pooled, 0, 1) == 6);
+    ASSERT(matrixGetElement(pooled, 1, 0) == 8);
+    ASSERT(matrixGetElement(pooled, 1, 1) == 9);
+
+    matrixFree(m);
+    matrixFree(pooled);
+}
+
+TEST(testPoolMaxFullSize) {
+    double data[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    Matrix m = matrixCreate(3, 3, data);
+
+    Matrix pooled = matrixPool(m, 3, "max");
+
+    ASSERT(matrixGetElement(pooled, 0, 0) == 9);
+
+    matrixFree(m);
+    matrixFree(pooled);
+}
+
+TEST(testPoolMaxNonSquare) {
+    double data[3][2] = {{1, 2}, {4, 5}, {7, 8}};
+    Matrix m = matrixCreate(3, 2, data);
+
+    Matrix pooled = matrixPool(m, 2, "max");
+
+    ASSERT(matrixGetElement(pooled, 0, 0) == 5);
+    ASSERT(matrixGetElement(pooled, 0, 1) == 6);
+    ASSERT(matrixGetElement(pooled, 1, 0) == 8);
+
+    matrixFree(m);
+    matrixFree(pooled);
+}
+
+TEST(testPoolMin) {
+    double data[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    Matrix m = matrixCreate(3, 3, data);
+
+    Matrix pooled = matrixPool(m, 2, "min");
+
+    ASSERT(matrixGetElement(pooled, 0, 0) == 1);
+    ASSERT(matrixGetElement(pooled, 0, 1) == 2);
+    ASSERT(matrixGetElement(pooled, 1, 0) == 4);
+    ASSERT(matrixGetElement(pooled, 1, 1) == 5);
+
+    matrixFree(m);
+    matrixFree(pooled);
+
+}
+
+TEST(testPoolAvg) {
+    double data[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    Matrix m = matrixCreate(3, 3, data);
+
+    Matrix pooled = matrixPool(m, 2, "avg");
+
+    ASSERT(matrixGetElement(pooled, 0, 0) == 3);
+    ASSERT(matrixGetElement(pooled, 0, 1) == 4);
+    ASSERT(matrixGetElement(pooled, 1, 0) == 6);
+    ASSERT(matrixGetElement(pooled, 1, 1) == 7);
+
+    matrixFree(m);
+    matrixFree(pooled);
+
+}
+
+// ------------------------------------------------
 // Test I/O
+// ------------------------------------------------
 
 TEST(testPrinting) {
 

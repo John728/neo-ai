@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct matrix *Matrix;
 
@@ -22,7 +23,8 @@ Matrix matrixRandom(int rows, int columns);
 double matrixDet(Matrix matrix);
 Matrix matrixGetSubMatrix(Matrix matrix, int x1, int y1, int x2, int y2);
 Matrix matrixJoin(Matrix m1, Matrix m2);
-
+Matrix matrixPool(Matrix matrix, int n, char *type);
+Matrix matrixConvolve(Matrix matrix, Matrix kernal);
 // Matrix getters 
 
 int matrixGetRows(Matrix matrix);
