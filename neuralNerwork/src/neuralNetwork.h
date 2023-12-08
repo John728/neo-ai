@@ -10,21 +10,34 @@ typedef struct plane *Plane;
 struct network {
     char *name;
     int numberOfLayers;
-    void *firstLayer;
-};
-
-struct module {
-    char *name;
+    Layer layers[];
+    Matrix (*connectionFunction)(int layer, int plane, int x, int y)
 };
 
 struct layer {
     char *name;
-    void *nextLayer;
-    Plane *firstPlane;
+    int index;
+    int numberOfPlanesInLayer;
+    Plane planes[];
 };
 
 struct plane {
     char *name;
-    Plane *nextPlane;
-    Matrix output;
+    int index;
+    Matrix cells;
 };
+
+
+Plane createPlane(int x, int y, int index, char *name);
+Layer createLayer(int numPlanes, char *name);
+Network createNetwork(int numLayers, char *name);
+
+Plane createInputPlane(int x, int y, int index, Matrix input);
+
+void defineLayer(Network network, int Layer);
+
+Layer getLayer(Network network);
+Plane getPlaneFromNetwork(Network network, int layerIndex, int planeIndex);
+Plane getPlaneFromLayer(Layer layer, int planeIndex);
+
+Matrix getConnections(int layerIndex, int planeIndex, int x, int y);

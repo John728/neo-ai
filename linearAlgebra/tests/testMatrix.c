@@ -323,6 +323,29 @@ TEST(testPoolAvg) {
 
 }
 
+TEST(testConvolve) {
+    double data[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    Matrix m = matrixCreate(3, 3, data);
+
+    double kernelData[2][2] = {{1, 2}, {3, 4}};
+    Matrix kernel = matrixCreate(2, 2, kernelData);
+
+    Matrix convolved = matrixConvolve(m, kernel);
+
+    // ASSERT(matrixGetElement(convolved, 0, 0) == 1);
+    // ASSERT(matrixGetElement(convolved, 0, 1) == 4);
+    // ASSERT(matrixGetElement(convolved, 1, 0) == 10);
+    // ASSERT(matrixGetElement(convolved, 1, 1) == 16);
+
+    // matrixFree(m);
+    // matrixFree(kernel);
+    // matrixFree(convolved);
+}
+
+TEST(testDot) {
+    
+}
+
 // ------------------------------------------------
 // Test I/O
 // ------------------------------------------------

@@ -274,27 +274,56 @@ Matrix matrixPool(Matrix matrix, int n, char *type) {
     return newMatrix;
 }
 
+Matirx matrixDot(Matrix matrix1, Matrix matrix2) {
+    int rows = matrixGetRows(matrix1);
+    int columns = matrixGetColumns(matrix1);
+
+    if (rows != matrixGetRows(matrix2) || columns != matrixGetColumns(matrix2)) {
+        fprintf(stderr, "Matrices must be the same size to dot them.\n");
+        abort();
+    }
+
+    Matrix newMatrix = matrixCreateEmpty(rows, columns);
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < columns; i++) {
+            matrixSetElement(newMatrix, i, j, matrixGetElement(matrix1, i, j) * matrixGetElement(matrix2, i, j));
+        }
+    }
+
+    return newMatrix;
+}
+
 /**
- * Convolve matrix by kernal. Returns a new matrix. 
+ * Convolve matrix by kernal. Padds the matrix with zeros.
 */
 Matrix matrixConvolve(Matrix matrix, Matrix kernal) {
-    int rows = matrixGetRows(matrix);
-    int columns = matrixGetColumns(matrix);
-
+    
     int kernalRows = matrixGetRows(kernal);
     int kernalColumns = matrixGetColumns(kernal);
 
-    int newRows = rows - kernalRows + 1;
-    int newColumns = columns - kernalColumns + 1;
+    Matrix newMatrix = matrixCreateZeros(matrixGetRows(matrix), matrixGetColumns(matrix));
+    Matrix inverseKernal = matrixCreateZeros(kernalRows, kernalColumns);
 
-    Matrix newMatrix = matrixCreateEmpty(newRows, newColumns);
+    // Flip kernal
+    for (int i = 0; i < kernalRows; i++) {
+        for (int j = 0; j < kernalColumns; j++) {
+            double kernalElem = matrixGetElement(kernal, i, kernalColumns - j - 1);
+            matrixSetElement(inverseKernal, i, j, kernalElem);
+        }
+    }    
 
-    for (int i = 0; i < newRows; i++) {
-        for (int j = 0; j < newColumns; j++) {
+    // Convolve
+    for (int i = 0; i < matrixGetRows(matrix); i++) {
+        for (int j = 0; j < matrixGetColumns(matrix); j++) {
             double sum = 0;
             for (int k = 0; k < kernalRows; k++) {
                 for (int l = 0; l < kernalColumns; l++) {
-                    sum += matrixGetElement(matrix, i + k, j + l) * matrixGetElement(kernal, k, l);
+                    int x = i + k - kernalRows / 2;
+                    int y = j + l - kernalColumns / 2;
+                    if (x >= 0 && x < matrixGetRows(matrix) && y >= 0 && y < matrixGetColumns(matrix)) {
+                        sum += matrixGetElement(matrix, x, y) * matrixGetElement(inverseKernal, k, l);
+                    }
                 }
             }
             matrixSetElement(newMatrix, i, j, sum);

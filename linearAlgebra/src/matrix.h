@@ -25,6 +25,7 @@ Matrix matrixGetSubMatrix(Matrix matrix, int x1, int y1, int x2, int y2);
 Matrix matrixJoin(Matrix m1, Matrix m2);
 Matrix matrixPool(Matrix matrix, int n, char *type);
 Matrix matrixConvolve(Matrix matrix, Matrix kernal);
+Matrix matrixDot(Matrix matrix1, Matrix matrix2);
 // Matrix getters 
 
 int matrixGetRows(Matrix matrix);
