@@ -1,4 +1,5 @@
-#include "../../linearAlgebra/src/linearAlgebra.h"
+#include "../../linearAlgebra/src/matrix.h"
+#include <stdlib.h>
 
 typedef struct image *Image;
 

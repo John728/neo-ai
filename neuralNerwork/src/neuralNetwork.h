@@ -20,6 +20,7 @@ struct layer {
     int numberOfPlanesInLayer;
     Plane planes[];
     Matrix (*connectionFunction)(int layer, int plane, int x, int y)
+    double inhibitor;
 };
 
 struct plane {
@@ -40,9 +41,13 @@ Plane createPlane(int x, int y, int index, char *name);
 Layer createLayer(int numPlanes, char *name);
 Network createNetwork(int numLayers, char *name);
 Plane createInputPlane(int x, int y, int index, Matrix input);
-Layer createSimpleLayer(int numPlanes, char *name, Matrix (*connectionFunction)(int layer, int plane, int x, int y));
 
-void defineLayer(Network network, int Layer);
+Layer createSimpleLayer(int numPlanes, char *name, Matrix (*connectionFunction)(int layer, int plane, int x, int y), double inhibitor);
+Layer createComplexLayer(int numPlanes, char *name, Matrix (*connectionFunction)(int layer, int plane, int x, int y));
+
+Matrix simpleConnectionFunction(int layer, int plane, int x, int y);
+Matrix complexConnectionFunction(int layer, int plane, int x, int y);
+
 
 Layer getLayer(Network network);
 Plane getPlaneFromNetwork(Network network, int layerIndex, int planeIndex);
