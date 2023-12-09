@@ -95,7 +95,15 @@ void run_tests() {
 }
 
 void printResultsToFile(char *filename) {
-    
+    FILE *file = fopen(filename, "w");
+
+    Test *current = head;
+    while (current) {
+        fprintf(file, "%s,%d\n", current->test_name, current->failed);
+        current = current->next;
+    }
+
+    fclose(file);
 }
 
 void setTextRed() {
