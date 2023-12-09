@@ -342,8 +342,32 @@ TEST(testConvolve) {
     // matrixFree(convolved);
 }
 
-TEST(testDot) {
-    
+TEST_FAIL(testDotProduct) {
+    double data[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    Matrix m = matrixCreate(3, 3, data);
+
+    double kernelData[2][2] = {{1, 2}, {3, 4}};
+    Matrix kernel = matrixCreate(2, 2, kernelData);
+
+    double dotProd = matrixDot(m, kernel);
+
+    matrixFree(m);
+    matrixFree(kernel);
+}
+
+TEST(testDotPass) {
+    double data1[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    Matrix m1 = matrixCreate(3, 3, data1);
+
+    double data2[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    Matrix m2 = matrixCreate(3, 3, data2);
+
+    double dotProduct = matrixDot(m1, m2);
+
+    ASSERT(dotProduct == 285);
+
+    matrixFree(m1);
+    matrixFree(m2);
 }
 
 // ------------------------------------------------
