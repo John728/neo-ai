@@ -1,29 +1,3 @@
-## Set up
-
-1. Inlcude the test framework inside test file
-2. Each test case stats with: 
-```
-TEST(test_name) {
-    // ... code
-}
-```
-
-3. Each test file needs to end with :
-```
-int main() {
-    run_tests();
-    return 0;
-}
-```
-which runs the tests.
-
-4. Options:
-```
-ASSERT(/*statement*/);
-TEST_FAIL(...) {...}
-```
-5. Boilerplate makefile text for make commands (!will fix later):
-```
 # Variables
 CC = gcc
 CFLAGS = -Wall -Wextra -pedantic -g -fprofile-arcs -ftest-coverage
@@ -62,21 +36,3 @@ coverage: $(OUTPUT)
 
 # Phony targets
 .PHONY: all clean with_valgrind coverage
-```
-
-
-Note:
-
-If you expect a test to fail, you can register a recourse you want to clean up after the test is complete with the 
-
-REGISTER_RESOURCE_FOR_CLEANUP(recourse, clean_up_function);
-
-which will be called after the function, and will apply the clean up function to the resourse. You do not have to use this if you do not expect a function to fail. Do not manually free if you use this.
-
-
-OTHER TOOLS:
-
-
-GDB + GDBGUI can be very useful in finding bugs
-valgrind is very usefull in finding memleaks
-gcov -n -o . test_runner-testMatrix.gcno

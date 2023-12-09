@@ -8,6 +8,7 @@ static Test *current_test = NULL;
 
 jmp_buf test_buf;
 int current_test_failed_due_to_signal = 0;
+Resource *resource_list = NULL;
 
 // Signal handler for SIGSEGV and SIGABRT
 void handle_sigsegv(int signum, siginfo_t *si, void *unused) {
@@ -23,7 +24,7 @@ void handle_sigsegv(int signum, siginfo_t *si, void *unused) {
         printf("Abort called in %s", current_test->test_name);
         current_test_failed_due_to_signal = 1;
     }
-
+    cleanup_resources();
     longjmp(test_buf, 1);
 }
 
@@ -107,4 +108,21 @@ void setTextGreen() {
 
 void resetTextColour() {
     printf("\033[0m");
+}
+
+void add_resource_to_cleanup(void *ptr, void (*free_func)(void *)) {
+    Resource *res = malloc(sizeof(Resource));
+    res->ptr = ptr;
+    res->free_func = free_func;
+    res->next = resource_list;
+    resource_list = res;
+}
+
+void cleanup_resources() {
+    while (resource_list != NULL) {
+        Resource *current = resource_list;
+        resource_list = current->next;
+        current->free_func(current->ptr);
+        free(current);
+    }
 }

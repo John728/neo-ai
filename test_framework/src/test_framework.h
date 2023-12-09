@@ -19,6 +19,12 @@ typedef struct Test {
     struct Test *next;
 } Test;
 
+typedef struct Resource {
+    void *ptr;
+    void (*free_func)(void *);
+    struct Resource *next;
+} Resource;
+
 #define TEST(name) \
     void name(); \
     static Test __test_##name = { .test_name = #name, .func = name, .next = NULL }; \
@@ -44,9 +50,20 @@ extern jmp_buf test_buf;
         } \
     } while (0)
 
+#define ASSERT_FAILS(expr) \
+    do { \
+        if ((expr)) { \
+            printf("FAIL (line %d: %s)", __LINE__, #expr); \
+            longjmp(test_buf, 1); \
+        } \
+    } while (0)
+
 #endif // TEST_FRAMEWORK_H
 
+#define REGISTER_RESOURCE_FOR_CLEANUP(ptr, free_func) add_resource_to_cleanup((void *)(ptr), (void (*)(void *))(free_func))
 
 void setTextRed();
 void setTextGreen();
 void resetTextColour();
+void add_resource_to_cleanup(void *ptr, void (*free_func)(void *));
+void cleanup_resources();
