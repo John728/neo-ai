@@ -274,7 +274,7 @@ Matrix matrixPool(Matrix matrix, int n, char *type) {
     return newMatrix;
 }
 
-Matirx matrixDot(Matrix matrix1, Matrix matrix2) {
+double matrixDot(Matrix matrix1, Matrix matrix2) {
     int rows = matrixGetRows(matrix1);
     int columns = matrixGetColumns(matrix1);
 
@@ -283,15 +283,15 @@ Matirx matrixDot(Matrix matrix1, Matrix matrix2) {
         abort();
     }
 
-    Matrix newMatrix = matrixCreateEmpty(rows, columns);
+    double sum = 0;
 
     for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < columns; i++) {
-            matrixSetElement(newMatrix, i, j, matrixGetElement(matrix1, i, j) * matrixGetElement(matrix2, i, j));
+        for (int j = 0; j < columns; j++) {
+            sum += matrixGetElement(matrix1, i, j) * matrixGetElement(matrix2, i, j);
         }
     }
 
-    return newMatrix;
+    return sum;
 }
 
 /**
