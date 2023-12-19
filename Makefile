@@ -1,18 +1,21 @@
 # Variables
 CC = gcc
 CFLAGS = -Wall -Wextra -pedantic -g -fprofile-arcs -ftest-coverage
-SRC_FILES = ../../test_framework/src/test_framework.c testImageProcessing.c ../src/imageProcessing.c ../../linearAlgebra/src/matrix.c
-OUTPUT = test_runner
+SRC_FILES = ./main.c ./imageProcessing/src/imageProcessing.c ./linearAlgebra/src/matrix.c ./neuralNerwork/src/neuralNetwork.c
+OUTPUT = main
 COVERAGE_DIR = ./coverage
 
 # Default target: Compile the tests without Valgrind and run them
 all: $(OUTPUT)
-	@echo "Running the tests..."
+	@echo "Running main"
 	./$(OUTPUT)
 
 # Compile the test runner
 $(OUTPUT): $(SRC_FILES)
-	@echo "Compiling the latest version of the test-framework..."
+	@echo "Cleaning up files"
+	rm -f $(OUTPUT)
+	rm -f *.gcda *.gcno *.gcov
+	@echo "Compiling the latest version of main"
 	$(CC) $(CFLAGS) -o $(OUTPUT) $(SRC_FILES)
 
 # Clean up the compiled files

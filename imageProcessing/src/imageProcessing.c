@@ -1,5 +1,6 @@
 #include "imageProcessing.h"
 
+
 struct image {
     int width;
     int height;
@@ -10,12 +11,7 @@ struct image {
 /**
  * For now, format is always Monochrome Bitmap
 */
-Image imageImport(char* filename, char* format) {
-
-    if (strcmp(format, "Monochrome Bitmap") != 0) {
-        fprintf(stderr, "Error: imageImport only supports Monochrome Bitmap format\n");
-        abort();
-    }
+Image imageImport(char* filename) {
 
     FILE* file = fopen(filename, "r");
     
@@ -53,10 +49,6 @@ Image imageImport(char* filename, char* format) {
     return image;
 }
 
-Matrix imageGetData(Image image) {
-    return image->data;
-}
-
 void imageFree(Image image) {
     matrixFree(image->data);
     free(image);
@@ -74,7 +66,49 @@ void imageSave(Image image, char* filename) {
     fwrite(&(image->height), sizeof(int), 1, file);
 
     // Write data
-    fwrite(image->data->data, sizeof(double), image->width * image->height, file);
+    fwrite(image->data, sizeof(double), image->width * image->height, file);
 
     fclose(file);
+}
+
+// Image imageCreateFromData(int width, int height, int channels, double data[][width]) {
+//     Matrix matrix = matrixCreate(height, width, data);
+
+//     Image image = malloc(sizeof(struct image));
+//     image->width = width;
+//     image->height = height;
+//     image->channels = channels;
+//     image->data = matrix;
+
+//     return image;
+// }
+
+Image imageCreateFromMatrix(Matrix matrix) {
+    Image image = malloc(sizeof(struct image));
+    image->width = matrixGetColumns(matrix);
+    image->height = matrixGetRows(matrix);
+    image->channels = 1;
+    
+    image->data = matrixCopy(matrix);
+
+    return image;
+}
+
+
+// Getters
+
+int imageGetWidth(Image image) {
+    return image->width;
+}
+
+int imageGetHeight(Image image) {
+    return image->height;
+}
+
+int imageGetChannels(Image image) {
+    return image->channels;
+}
+
+Matrix imageGetData(Image image) {
+    return image->data;
 }

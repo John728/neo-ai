@@ -8,7 +8,7 @@ typedef struct matrix *Matrix;
 
 Matrix matrixCreateZeros(int rows, int columns);
 Matrix matrixCreateEmpty(int rows, int columns);
-Matrix matrixCreate(int rows, int columns, double data[][columns]);
+Matrix matrixCreate(int rows, int columns, double (*data)[columns]);
 void matrixFree(Matrix matrix);
 
 // Matrix operations
@@ -26,6 +26,8 @@ Matrix matrixJoin(Matrix m1, Matrix m2);
 Matrix matrixPool(Matrix matrix, int n, char *type);
 Matrix matrixConvolve(Matrix matrix, Matrix kernal);
 double matrixDot(Matrix matrix1, Matrix matrix2);
+Matrix matrixCopy(Matrix matrix);
+
 // Matrix getters 
 
 int matrixGetRows(Matrix matrix);

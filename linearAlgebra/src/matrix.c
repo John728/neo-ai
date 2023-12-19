@@ -35,7 +35,7 @@ Matrix matrixCreateEmpty(int rows, int columns) {
     return newMatrix;
 }
 
-Matrix matrixCreate(int rows, int columns, double data[][columns]) {
+Matrix matrixCreate(int rows, int columns, double (*data)[columns]) {
     
     Matrix newMatrix = matrixCreateEmpty(rows, columns);
     
@@ -220,6 +220,18 @@ Matrix matrixRandom(int rows, int columns) {
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
             matrixSetElement(newMatrix, i, j, i);
+        }
+    }
+
+    return newMatrix;
+}
+
+Matrix matrixCopy(Matrix matrix) {
+    Matrix newMatrix = matrixCreateEmpty(matrixGetRows(matrix), matrixGetColumns(matrix));
+
+    for (int i = 0; i < matrixGetRows(matrix); i++) {
+        for (int j = 0; j < matrixGetColumns(matrix); j++) {
+            matrixSetElement(newMatrix, i, j, matrixGetElement(matrix, i, j));
         }
     }
 

@@ -12,3 +12,15 @@ Image imageCreateFromData(int width, int height, int channels, double data[][wid
 Matrix imageGetData(Image image);
 void imageFree(Image image);
 void imageSave(Image image, char* filename);
+
+
+// Getters and setters
+
+int imageGetWidth(Image image);
+int imageGetHeight(Image image);
+int imageGetChannels(Image image);
+Matrix imageGetData(Image image);
+
+void imageSetWidth(Image image, int width);
+void imageSetHeight(Image image, int height);
+void imageSetChannels(Image image, int channels);
