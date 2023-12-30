@@ -238,6 +238,10 @@ Matrix matrixCopy(Matrix matrix) {
     return newMatrix;
 }
 
+Matrix matrixCopyData(Matrix matrix) {
+    double (*data)[matrixGetColumns(matrix)] = memcpy(malloc(sizeof(double) * matrixGetRows(matrix) * matrixGetColumns(matrix)), matrix->data, sizeof(double) * matrixGetRows(matrix) * matrixGetColumns(matrix)); 
+}
+
 /**
  * Pool matrix by n. Returns a new matrix.
  * Options for type: max, min, avg

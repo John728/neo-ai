@@ -1,5 +1,7 @@
 #include "../../linearAlgebra/src/matrix.h"
 #include <stdlib.h>
+#include <stdio.h>
+#include <stdint.h>
 
 typedef struct image *Image;
 

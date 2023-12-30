@@ -27,6 +27,7 @@ Matrix matrixPool(Matrix matrix, int n, char *type);
 Matrix matrixConvolve(Matrix matrix, Matrix kernal);
 double matrixDot(Matrix matrix1, Matrix matrix2);
 Matrix matrixCopy(Matrix matrix);
+Matrix matrixCopyData(Matrix matrix);
 
 // Matrix getters 
 

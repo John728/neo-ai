@@ -5,7 +5,9 @@
         "stdio.h": "c",
         "stdlib.h": "c",
         "test_framework.h": "c",
-        "imageprocessing.h": "c"
+        "imageprocessing.h": "c",
+        "stb_image.h": "c",
+        "stb_image_write.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "cmake.configureOnOpen": true

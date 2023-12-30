@@ -10,8 +10,6 @@ TEST(testCreatingImageFromMatrix) {
     Matrix matrix = matrixCreate(2, 2, data);
     Image image = imageCreateFromMatrix(matrix);
 
-    printf("height: %d\nwidth: %d\nchannels: %d\n", imageGetHeight(image), imageGetWidth(image), imageGetChannels(image));
-
     ASSERT(imageGetWidth(image) == 2);
     ASSERT(imageGetHeight(image) == 2);
     ASSERT(imageGetChannels(image) == 1);
@@ -45,14 +43,14 @@ TEST(testSaveAndLoad) {
     };
 
 
-    Matrix matrix = matrixCreate(2, 2, data);
+    Matrix matrix = matrixCreate(19, 19, data);
     Image image = imageCreateFromMatrix(matrix);
 
-    imageSave(image, "test.bmp");
-    Image loadedImage = imageImport("test.bmp");
+    imageSave(image, "test.png");
+    Image loadedImage = imageImport("test.png");
 
-    ASSERT(imageGetWidth(loadedImage) == 2);
-    ASSERT(imageGetHeight(loadedImage) == 2);
+    ASSERT(imageGetWidth(loadedImage) == 19);
+    ASSERT(imageGetHeight(loadedImage) == 19);
     ASSERT(imageGetChannels(loadedImage) == 1);
 
     imageFree(image);

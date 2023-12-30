@@ -13,7 +13,7 @@ all: $(OUTPUT)
 # Compile the test runner
 $(OUTPUT): $(SRC_FILES)
 	@echo "Compiling the latest version of the test-framework..."
-	$(CC) $(CFLAGS) -o $(OUTPUT) $(SRC_FILES)
+	$(CC) $(CFLAGS) -o $(OUTPUT) $(SRC_FILES) -lm
 
 # Clean up the compiled files
 clean:
