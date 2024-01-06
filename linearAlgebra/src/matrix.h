@@ -14,6 +14,11 @@ void matrixFree(Matrix matrix);
 // Matrix operations
 
 Matrix matrixAdd(Matrix matrix1, Matrix matrix2);
+Matrix matrixAddScalar(Matrix matrix, double scalar);
+Matrix matrixDivideScalar(Matrix matrix, double scalar);
+Matrix matrixConvolve(Matrix matrix, Matrix kernal);
+Matrix matrixThreshold(Matrix matrix, double threshold);
+
 Matrix matrixSubtract(Matrix matrix1, Matrix matrix2);
 Matrix matrixMultiply(Matrix matrix1, Matrix matrix2);
 Matrix matrixTranspose(Matrix matrix);
@@ -24,7 +29,6 @@ double matrixDet(Matrix matrix);
 Matrix matrixGetSubMatrix(Matrix matrix, int x1, int y1, int x2, int y2);
 Matrix matrixJoin(Matrix m1, Matrix m2);
 Matrix matrixPool(Matrix matrix, int n, char *type);
-Matrix matrixConvolve(Matrix matrix, Matrix kernal);
 double matrixDot(Matrix matrix1, Matrix matrix2);
 Matrix matrixCopy(Matrix matrix);
 Matrix matrixCopyData(Matrix matrix);

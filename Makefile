@@ -16,7 +16,7 @@ $(OUTPUT): $(SRC_FILES)
 	rm -f $(OUTPUT)
 	rm -f *.gcda *.gcno *.gcov
 	@echo "Compiling the latest version of main"
-	$(CC) $(CFLAGS) -o $(OUTPUT) $(SRC_FILES)
+	$(CC) $(CFLAGS) -o $(OUTPUT) $(SRC_FILES) -lm
 
 # Clean up the compiled files
 clean:

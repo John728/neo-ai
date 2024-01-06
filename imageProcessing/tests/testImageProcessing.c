@@ -58,6 +58,33 @@ TEST(testSaveAndLoad) {
     matrixFree(matrix);
 }
 
+TEST(testDataFromPath) {
+
+    // create image
+
+    double data[2][2] = {{1,0},{0,1}};
+
+    Matrix matrix = matrixCreate(2, 2, data);
+    Image image = imageCreateFromMatrix(matrix);
+    imageSave(image, "test.png");
+
+    matrixFree(matrix);
+    imageFree(image);
+
+    // preform test
+
+    Matrix loadedMatrix = imageGetDataFromPath("test.png");
+
+    ASSERT(matrixGetRows(loadedMatrix) == 2);
+    ASSERT(matrixGetColumns(loadedMatrix) == 2);
+    ASSERT(matrixGetElement(loadedMatrix, 0, 0) == 1);
+    ASSERT(matrixGetElement(loadedMatrix, 0, 1) == 0);
+    ASSERT(matrixGetElement(loadedMatrix, 1, 0) == 0);
+    ASSERT(matrixGetElement(loadedMatrix, 1, 1) == 1);
+
+    matrixFree(loadedMatrix);
+}
+
 
 
 // needed for test framework

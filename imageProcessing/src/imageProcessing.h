@@ -22,6 +22,7 @@ int imageGetWidth(Image image);
 int imageGetHeight(Image image);
 int imageGetChannels(Image image);
 Matrix imageGetData(Image image);
+Matrix imageGetDataFromPath(char* filename);
 
 void imageSetWidth(Image image, int width);
 void imageSetHeight(Image image, int height);

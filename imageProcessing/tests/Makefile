@@ -18,7 +18,7 @@ $(OUTPUT): $(SRC_FILES)
 # Clean up the compiled files
 clean:
 	rm -f $(OUTPUT)
-	rm -f *.gcda *.gcno *.gcov
+	rm -f *.gcda *.gcno *.gcov *.png
 
 # Compile the tests, run them with Valgrind
 with_valgrind: $(OUTPUT)

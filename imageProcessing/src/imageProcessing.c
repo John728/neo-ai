@@ -107,3 +107,11 @@ int imageGetChannels(Image image) {
 Matrix imageGetData(Image image) {
     return image->data;
 }
+
+Matrix imageGetDataFromPath(char* filename) {
+    Image image = imageImport(filename);
+    Matrix matrix = imageGetData(image);
+    Matrix copiedMatrix = matrixCopy(matrix);
+    imageFree(image);
+    return copiedMatrix;
+}

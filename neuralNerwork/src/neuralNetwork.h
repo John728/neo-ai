@@ -7,14 +7,22 @@ typedef struct network *Network;
 typedef struct module *Module;
 typedef struct layer *Layer;
 typedef struct plane *Plane;
+typedef struct link *Link;
 
-Plane createPlane(int x, int y, int index, char *name, Matrix pattern);
-Layer createLayer(char *name, int index, int numPlanes, Matrix (*connectionFunction)(int layer, int plane, int x, int y), double inhibitor);
-Network createNetwork(int numLayers, char *name);
+
+Plane createPlane(int x, int y, char *name, Link links);
+Layer createLayer(char *name, double inhibitor);
+Network createNetwork(char *name);
 Plane createInputPlane(Image image);
+Link createLink(Plane plane);
 
 Layer createSimpleLayer(int numPlanes, char *name, Matrix (*connectionFunction)(int layer, int plane, int x, int y), double inhibitor);
 Layer createComplexLayer(int numPlanes, char *name, Matrix (*connectionFunction)(int layer, int plane, int x, int y));
+
+void addLayerToNetwork(Network network, Layer layer);
+void addPlaneToLayer(Layer layer, Plane plane);
+void addPatternToPlane(Plane plane, char *patternPath);
+Link addPlaneToLink(Link link, Plane plane)
 
 Matrix simpleConnectionFunction(int layer, int plane, int x, int y);
 Matrix complexConnectionFunction(int layer, int plane, int x, int y);
@@ -28,3 +36,5 @@ Matrix getConnections(int layerIndex, int planeIndex, int x, int y);
 
 
 void printPlane(Plane plane);
+void printLayer(Layer layer, int printPlanes);
+void printNetwork(Network network, int printLayers, int printPlanes);

@@ -373,6 +373,20 @@ TEST(testDotPass) {
     matrixFree(m2);
 }
 
+TEST(testConvolve) {
+    double data1[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    Matrix m1 = matrixCreate(3, 3, data1);
+
+    double data2[2][2] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    Matrix m2 = matrixCreate(2, 2, data2);
+
+    Matrix convolved = matrixConvolve(m1, m2);
+
+    matrixFree(m1);
+    matrixFree(m2);
+    matrixFree(convolved);
+}
+
 // ------------------------------------------------
 // Test I/O
 // ------------------------------------------------

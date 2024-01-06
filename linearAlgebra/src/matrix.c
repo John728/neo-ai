@@ -349,6 +349,38 @@ Matrix matrixConvolve(Matrix matrix, Matrix kernal) {
     return newMatrix;
 }
 
+Matrix matrixAddScalar(Matrix matrix, double scalar) {
+    Matrix copy = matrixCopy(matrix);
+    for (int i = 0; i < copy->rows; i++) {
+        for (int j = 0; j < copy->columns; j++) {
+            copy->data[i][j] += scalar;
+        }
+    }
+    return copy;
+}
+
+Matrix matrixDivideScalar(Matrix matrix, double scalar) {
+    Matrix copy = matrixCopy(matrix);
+    for (int i = 0; i < copy->rows; i++) {
+        for (int j = 0; j < copy->columns; j++) {
+            copy->data[i][j] /= scalar;
+        }
+    }
+    return copy;
+}
+
+Matrix matrixThreshold(Matrix matrix, double threshold) {
+    Matrix copy = matrixCopy(matrix);
+    for (int i = 0; i < copy->rows; i++) {
+        for (int j = 0; j < copy->columns; j++) {
+            if (copy->data[i][j] < threshold) {
+                copy->data[i][j] = 0;
+            }
+        }
+    }
+    return copy;
+}
+
 /**
  * Resursive determinant function. Returns the determinant of matrix.
 */
